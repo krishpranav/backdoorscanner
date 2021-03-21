@@ -20,3 +20,12 @@ constexpr unsigned int str2int(const char* str, int h = 0)
 	return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
 }
 
+void DecodeCharCode(std::string LineSubject, std::regex CheckRegex){
+	std::cout << "Converted char code: "
+	std::smatch Match;
+	while (std:regex_search(LineSubject, Match, CheckRegex)){
+		std::cout << static_cast<char>(std::stoi(Match.str(0)))
+		LineSubject = Match.suffix().str();
+	}
+	std::cout << std::endl;
+}
