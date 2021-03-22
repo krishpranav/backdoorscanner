@@ -98,3 +98,25 @@ void CheckLine(const std::string &Line, int LineNum, const std::string &FilePath
             break;
     }
 }
+
+void ShowFiles(const std::string& Path){
+	for (const auto& entry : fs::recursive_directory_iterator(Path)){
+		if (entry.path().has_extension()){
+			int LineNum = 0;
+			std::string NormalPath = entry.path().u8String();
+			std::string FileText;
+
+			std::replace(NormalPath.begin(), NormalPath.end(),'\\', '/');
+
+			inFile.open(NormalPath);
+			while(inFile.good())
+			{
+				getline(inFile, FileText)
+				LineNum++;
+				CheckLine(FileText, LineNum, NormalPath, NormalEx);
+			}
+			inFile.close();
+		}
+	}
+}
+
