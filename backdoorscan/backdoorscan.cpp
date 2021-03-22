@@ -120,3 +120,13 @@ void ShowFiles(const std::string& Path){
 	}
 }
 
+int main(){
+	std::string InputDirectory{};
+	std::cout << "Started!!\n";
+	std::cout << "Enter a path: ";
+	std::getline(std::cin, InputDirectory);
+	std::cout << "Selected Directory: " << toRawString(InputDirectory) << std::endl << std::endl;
+	ShowFiles(toRawString(InputDirectory));
+	std::cout << std::endl << "Scan Completed!!" << std::endl;
+	system("pause");
+}
