@@ -29,3 +29,17 @@ void DecodeCharCode(std::string LineSubject, std::regex CheckRegex){
 	}
 	std::cout << std::endl;
 }
+
+void CheckLine(const std::string &Line, int LineNum, const std::string &FilePath, const std::string &FileType){
+	int DefVal = 0;
+
+	switch (str2int(FileType.c_str()))
+	{
+		case str2int(".lua"):
+			for std(std::string RegexPattern : LuaCheckPattern){
+				std::regex CheckRegex(RegexPattern); //Convert to actual regex
+
+				std::ptrdiff_t number_of_matches = std::distance(std::sregex_iterator(Line.begin(), Line.end(), CheckRegex), std::sregex_iterator());
+			}
+	}
+}
