@@ -30,16 +30,71 @@ void DecodeCharCode(std::string LineSubject, std::regex CheckRegex){
 	std::cout << std::endl;
 }
 
-void CheckLine(const std::string &Line, int LineNum, const std::string &FilePath, const std::string &FileType){
-	int DefVal = 0;
+void CheckLine(const std::string &Line, int LineNum, const std::string &FilePath, const std::string &FileType) {
+    int DefVal = 0;
 
-	switch (str2int(FileType.c_str()))
-	{
-		case str2int(".lua"):
-			for std(std::string RegexPattern : LuaCheckPattern){
-				std::regex CheckRegex(RegexPattern); //Convert to actual regex
+    switch (str2int(FileType.c_str()))
+    {
+        case str2int(".lua"):
+            for (std::string RegexPattern : LuaCheckPatterns) {
+                std::regex CheckRegex(RegexPattern); // Convert to actual regex
 
-				std::ptrdiff_t number_of_matches = std::distance(std::sregex_iterator(Line.begin(), Line.end(), CheckRegex), std::sregex_iterator());
-			}
-	}
+                std::ptrdiff_t number_of_matches = std::distance(std::sregex_iterator(Line.begin(), Line.end(), CheckRegex), std::sregex_iterator());
+
+                if (number_of_matches > 0) {
+                    std::cout << FilePath << " | " << LuaCheckDefs[DefVal] << " @ Line #" << LineNum << " | " << trimExtraWhiteSpaces(Line) << std::endl;
+                    std::cout << std::endl;
+                }
+
+                DefVal++;
+            }
+            break;
+        case str2int(".vmt"):
+            for (std::string RegexPattern : VMTRegexPatterns) {
+                std::regex CheckRegex(RegexPattern); // Convert to actual regex
+
+                std::ptrdiff_t number_of_matches = std::distance(std::sregex_iterator(Line.begin(), Line.end(), CheckRegex), std::sregex_iterator());
+
+                if (number_of_matches > 0) {
+                    std::cout << FilePath << " | " << VMTRegexDefs[DefVal] << " in a VMT @ Line #" << LineNum << " | " << trimExtraWhiteSpaces(Line) << std::endl;
+                    if (VMTRegexDefs[DefVal] == "CharCode")
+                        DecodeCharCode(Line, CheckRegex);
+                    std::cout << std::endl;
+                }
+                DefVal++;
+            }
+            break;
+        case str2int(".vtf"):
+            for (std::string RegexPattern : VTFRegexPatterns) {
+                std::regex CheckRegex(RegexPattern); // Convert to actual regex
+
+                std::ptrdiff_t number_of_matches = std::distance(std::sregex_iterator(Line.begin(), Line.end(), CheckRegex), std::sregex_iterator());
+
+                if (number_of_matches > 0) {
+                    std::cout << FilePath << " | " << VTFRegexDefs[DefVal] << " in a VTF @ Line #" << LineNum << " | " << trimExtraWhiteSpaces(Line) << std::endl;
+                    if (VTFRegexDefs[DefVal] == "CharCode")
+                        DecodeCharCode(Line, CheckRegex);
+                    std::cout << std::endl;
+                }
+                DefVal++;
+            }
+            break;
+        case str2int(".ttf"):
+            for (std::string RegexPattern : TTFRegexPatterns) {
+                std::regex CheckRegex(RegexPattern); // Convert to actual regex
+
+                std::ptrdiff_t number_of_matches = std::distance(std::sregex_iterator(Line.begin(), Line.end(), CheckRegex), std::sregex_iterator());
+
+                if (number_of_matches > 0) {
+                    std::cout << FilePath << " | " << TTFRegexDefs[DefVal] << " in a TTF @ Line #" << LineNum << " | " << trimExtraWhiteSpaces(Line) << std::endl;
+                    if (TTFRegexDefs[DefVal] == "Code Obfuscation (Decimal)") {
+                        std::cout << "Converted Decimal : ";
+                        DecodeCharCode(Line, CheckRegex);
+                    }
+                    std::cout << std::endl;
+                }
+                DefVal++;
+            }
+            break;
+    }
 }
